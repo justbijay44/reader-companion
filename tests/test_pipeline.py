@@ -1,5 +1,6 @@
 from app.ingestion.pipeline import file_hash
 
+
 def test_file_hash_consistency(tmp_path):
     file = tmp_path / "sample.txt"
     file.write_text("hello world")

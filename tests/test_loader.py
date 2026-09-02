@@ -1,5 +1,6 @@
 from app.ingestion.loader import is_pdf
 
+
 def test_is_pdf_true(tmp_path):
     file = tmp_path / "fake.pdf"
     file.write_bytes(b"%PDF-1.4\n...")

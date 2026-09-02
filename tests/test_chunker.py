@@ -1,5 +1,7 @@
 from langchain_core.documents import Document
+
 from app.ingestion.chunker import chunk_documents
+
 
 def test_chunk_doc_basic():
     page_docs = [
