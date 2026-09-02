@@ -1,0 +1,7 @@
+pymupdf
+sentence-transformers
+qdrant-client
+langchain-core
+langchain-text-splitters
+pydantic-settings
+logfire[fastapi]

@@ -1,0 +1,7 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+.logfire/
+sample_data/
+reading-companion-context.md
