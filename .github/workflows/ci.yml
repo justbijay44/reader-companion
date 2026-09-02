@@ -24,5 +24,9 @@ jobs:
               run: ruff check .
 
             - name: Run Tests
+              env:
+                QDRANT_URL: http://localhost:6333
+                QDRANT_COLLECTION: test_collection
               run: pytest tests/ -v
-
+            
+            
