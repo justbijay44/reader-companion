@@ -1,6 +1,7 @@
-import pymupdf
 import logfire
+import pymupdf
 from langchain_core.documents import Document
+
 
 def is_pdf(file_path: str) -> bool:
     with open(file_path, "rb") as f:

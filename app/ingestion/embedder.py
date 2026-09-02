@@ -1,6 +1,6 @@
 import logfire
-from sentence_transformers import SentenceTransformer
 from langchain_core.documents import Document
+from sentence_transformers import SentenceTransformer
 
 from app.config import settings
 

@@ -5,3 +5,5 @@ langchain-core
 langchain-text-splitters
 pydantic-settings
 logfire[fastapi]
+ruff 
+pytest

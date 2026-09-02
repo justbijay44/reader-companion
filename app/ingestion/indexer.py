@@ -1,8 +1,15 @@
 import uuid
+
 import logfire
 from qdrant_client import QdrantClient
-from qdrant_client.models import (Distance, VectorParams, PointStruct,
-                                Filter, FieldCondition, MatchValue)
+from qdrant_client.models import (
+    Distance,
+    FieldCondition,
+    Filter,
+    MatchValue,
+    PointStruct,
+    VectorParams,
+)
 
 from app.config import settings
 

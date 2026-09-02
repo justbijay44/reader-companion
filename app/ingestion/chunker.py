@@ -2,6 +2,7 @@ import logfire
 from langchain_core.documents import Document
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
+
 def chunk_documents(page_docs: list[Document]) -> list[Document]:
     full_text = ""
     offset_to_page = []

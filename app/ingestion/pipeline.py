@@ -1,10 +1,12 @@
 import hashlib
+
 import logfire
 
-from app.ingestion.loader import load_pdf
 from app.ingestion.chunker import chunk_documents
 from app.ingestion.embedder import embed_chunks
-from app.ingestion.indexer import upsert_chunks, document_exists
+from app.ingestion.indexer import document_exists, upsert_chunks
+from app.ingestion.loader import load_pdf
+
 
 def file_hash(file_path: str) -> str:
     with open(file_path, 'rb') as f:
