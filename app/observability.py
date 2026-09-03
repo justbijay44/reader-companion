@@ -1,3 +1,6 @@
 import logfire
 
-logfire.configure()
+logfire.configure(
+    service_name="reading-companion",
+    environment="development"
+)

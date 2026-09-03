@@ -2,6 +2,8 @@ import hashlib
 
 import logfire
 
+from app.db.models import Book
+from app.db.session import SessionLocal
 from app.ingestion.chunker import chunk_documents
 from app.ingestion.embedder import embed_chunks
 from app.ingestion.indexer import document_exists, upsert_chunks
@@ -25,4 +27,8 @@ def ingest_book(file_path: str, filename: str) -> str:
         vectors = embed_chunks(chunks)
         upsert_chunks(document_id, filename, chunks, vectors)
 
+    with SessionLocal() as session:
+        session.add(Book(document_id=document_id, filename=filename))
+        session.commit()
+        
     return document_id

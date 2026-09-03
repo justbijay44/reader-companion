@@ -29,6 +29,7 @@ jobs:
                 QDRANT_COLLECTION: test_collection
                 GEMINI_API_KEY: dummy
                 GROQ_API_KEY: dummy
+                DATABASE_URL: sqlite:///test.db
               run: pytest tests/ -v
             
             

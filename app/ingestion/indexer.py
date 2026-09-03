@@ -75,3 +75,14 @@ def document_exists(document_id: str) -> bool:
         exists = result.count > 0
         
     return exists
+
+def delete_document(document_id: str):
+    client = get_client()
+    if not client.collection_exists(settings.QDRANT_COLLECTION):
+        return 
+    client.delete(
+        collection_name=settings.QDRANT_COLLECTION,
+        points_selector=Filter(
+            must=[FieldCondition(key="document_id", match=MatchValue(value=document_id))]
+        ),
+    )

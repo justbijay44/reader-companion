@@ -18,4 +18,6 @@ class Settings(BaseSettings):
 
     RERANKER_MODEL: str = "BAAI/bge-reranker-base"
 
+    DATABASE_URL: str
+
 settings = Settings()
