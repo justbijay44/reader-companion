@@ -27,6 +27,8 @@ jobs:
               env:
                 QDRANT_URL: http://localhost:6333
                 QDRANT_COLLECTION: test_collection
+                GEMINI_API_KEY: dummy
+                GROQ_API_KEY: dummy
               run: pytest tests/ -v
             
             

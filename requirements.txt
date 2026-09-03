@@ -7,3 +7,5 @@ pydantic-settings
 logfire[fastapi]
 ruff 
 pytest
+google-genai
+groq

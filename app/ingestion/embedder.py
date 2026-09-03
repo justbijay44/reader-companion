@@ -6,6 +6,8 @@ from app.config import settings
 
 _model = SentenceTransformer(settings.EMBEDDING_MODEL)
 
+def embed_query(text: str) -> list[float]:
+    return _model.encode(text, normalize_embeddings=True).tolist()
 
 def embed_chunks(chunks: list[Document]) -> list[list[float]]:
     texts = [chunk.page_content for chunk in chunks]
