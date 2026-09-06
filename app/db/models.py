@@ -18,5 +18,6 @@ class Book(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     document_id = Column(String, nullable=False, unique=True)
     filename = Column(String, nullable=False)
+    status = Column(String, nullable=False, default="pending")
     uploaded_at = Column(DateTime(timezone=True), server_default=func.now())
     

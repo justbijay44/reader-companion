@@ -14,7 +14,18 @@ async function loadBookList() {
 
     for (const book of books) {
         const item = document.createElement("li");
-        item.textContent = book.filename.replace(/\.pdf$/i, "");
+
+        const title = document.createElement("span");
+        title.textContent = book.filename.replace(/\.pdf$/i, "");
+        item.appendChild(title);
+
+        if (book.status !== "ready") {
+            const badge = document.createElement("span");
+            badge.className = "book-status";
+            badge.textContent = "Processing…";
+            item.appendChild(badge);
+        }
+
         item.addEventListener("click", () => openBook(book));
         list.appendChild(item);
     }
@@ -45,15 +56,31 @@ async function loadPDF(url) {
 
 async function renderPage(pageNum) {
     const page = await pdfDoc.getPage(pageNum);
-    const viewport = page.getViewport({ scale: 1.5 });
+    const wrap = document.getElementById("canvas-wrap");
+    const baseViewport = page.getViewport({ scale: 1 });
+    const scale = Math.min(
+        wrap.clientWidth / baseViewport.width,
+        wrap.clientHeight / baseViewport.height
+    );
+    const dpr = window.devicePixelRatio || 1;
+    const viewport = page.getViewport({ scale: scale * dpr });
 
     const canvas = document.getElementById("pdf-canvas");
     canvas.width = viewport.width;
     canvas.height = viewport.height;
+    canvas.style.width = `${viewport.width / dpr}px`;
+    canvas.style.height = `${viewport.height / dpr}px`;
 
     const ctx = canvas.getContext("2d");
     await page.render({ canvasContext: ctx, viewport: viewport }).promise;
 }
+
+let resizeTimeout;
+new ResizeObserver(() => {
+    if (!pdfDoc) return;
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => renderPage(currentPage), 120);
+}).observe(document.getElementById("canvas-wrap"));
 
 function updatePageInfo() {
     document.getElementById("page-info").textContent =
@@ -94,6 +121,22 @@ document.getElementById("jump-btn").addEventListener("click", () => {
         renderPage(currentPage);
         updatePageInfo();
         saveProgress();
+    }
+});
+
+document.getElementById("focus-btn").addEventListener("click", () => {
+    const entering = !document.body.classList.contains("focus-mode");
+    document.body.classList.toggle("focus-mode", entering);
+    if (entering) {
+        document.documentElement.requestFullscreen?.().catch(() => {});
+    } else if (document.fullscreenElement) {
+        document.exitFullscreen?.();
+    }
+});
+
+document.addEventListener("fullscreenchange", () => {
+    if (!document.fullscreenElement) {
+        document.body.classList.remove("focus-mode");
     }
 });
 
@@ -148,3 +191,4 @@ document.getElementById("upload-btn").addEventListener("click", async () => {
 });
 
 loadBookList();
+setInterval(loadBookList, 5000);

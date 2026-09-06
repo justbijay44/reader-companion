@@ -1,31 +1,40 @@
 import shutil
 from pathlib import Path
 
-from fastapi import APIRouter, File, HTTPException, UploadFile
+from fastapi import APIRouter, BackgroundTasks, File, HTTPException, UploadFile
 
 from app.db.models import Book, ReadingProgress
 from app.db.session import SessionLocal
 from app.ingestion.indexer import delete_document
-from app.ingestion.pipeline import ingest_book
+from app.ingestion.pipeline import file_hash, ingest_book
 
 router = APIRouter(prefix="/books", tags=["books"])
 UPLOAD_DIR = Path("uploads")
 UPLOAD_DIR.mkdir(exist_ok=True)
 
+def run_ingestion(file_path: str, filename: str, document_id: str):
+    ingest_book(file_path, filename)
+    with SessionLocal() as session:
+        book = session.query(Book).filter(Book.document_id == document_id).first()
+        if book:
+            book.status = "ready"
+            session.commit()
+
 @router.post("/upload")
-def upload_book(file: UploadFile = File(...)):  # noqa: B008 -- safe as default
+def upload_book(background_tasks: BackgroundTasks, file: UploadFile = File(...)):  # noqa: B008 -- safe as default
     file_path = UPLOAD_DIR / file.filename
 
     with open(file_path, "wb") as f:
         shutil.copyfileobj(file.file, f)
 
-    document_id = ingest_book(str(file_path), file.filename)
+    document_id = file_hash(str(file_path))
 
     with SessionLocal() as session:
         existing = session.query(Book).filter(Book.document_id == document_id).first()
         if not existing:
-            session.add(Book(document_id=document_id, filename=file.filename))
+            session.add(Book(document_id=document_id, filename=file.filename, status="pending"))
             session.commit()
+            background_tasks.add_task(run_ingestion, str(file_path), file.filename, document_id)
 
     return {"document_id": document_id, "filename": file.filename}
 
@@ -42,7 +51,7 @@ def list_books():
     with SessionLocal() as session:
         books = session.query(Book).all()
         return [
-            {"document_id": b.document_id, "filename": b.filename, "uploaded_at": b.uploaded_at}
+            {"document_id": b.document_id, "filename": b.filename, "uploaded_at": b.uploaded_at, "status": b.status}
             for b in books
         ]
 

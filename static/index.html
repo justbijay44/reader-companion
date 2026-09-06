@@ -6,7 +6,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=5">
 </head>
 
 <body>
@@ -49,7 +49,19 @@
             <p>Choose a book from your library, or upload a new one to get started.</p>
         </div>
 
-        <canvas id="pdf-canvas" hidden></canvas>
+        <div id="canvas-wrap">
+            <div id="page-frame">
+                <canvas id="pdf-canvas" hidden></canvas>
+                <button id="focus-btn" class="icon-btn" title="Toggle focus mode">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 3H5a2 2 0 0 0-2 2v3" />
+                        <path d="M16 3h3a2 2 0 0 1 2 2v3" />
+                        <path d="M8 21H5a2 2 0 0 1-2-2v-3" />
+                        <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+                    </svg>
+                </button>
+            </div>
+        </div>
         <div id="reader-controls" hidden>
             <button id="prev-btn" class="icon-btn">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -77,7 +89,7 @@
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js?v=2"></script>
 </body>
 
 </html>
