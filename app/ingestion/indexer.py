@@ -8,6 +8,7 @@ from qdrant_client.models import (
     Filter,
     MatchValue,
     PointStruct,
+    Range,
     VectorParams,
 )
 
@@ -86,3 +87,24 @@ def delete_document(document_id: str):
             must=[FieldCondition(key="document_id", match=MatchValue(value=document_id))]
         ),
     )
+
+def get_offset_for_page(document_id: str, page: int) -> int:
+    client = get_client()
+    if not client.collection_exists(settings.QDRANT_COLLECTION):
+        return 0
+
+    result, _ = client.scroll(
+        collection_name=settings.QDRANT_COLLECTION,
+        scroll_filter=Filter(
+            must=[
+                FieldCondition(key="document_id", match=MatchValue(value=document_id)),
+                FieldCondition(key="page_number", range=Range(lte=page)),
+            ]
+        ),
+        limit=1000,
+    )
+
+    if not result:
+        return 0
+
+    return max(r.payload["end_offset"] for r in result)

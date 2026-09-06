@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.git/
+.pytest_cache/
+.logfire/
+uploads/
+sample_data/
+tests/
+.env
+.env.example
+*.pdf

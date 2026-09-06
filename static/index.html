@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Reading Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="sidebar">
+        <div id="brand">
+            <svg id="brand-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 5.5c2-1 5-1 8 0v13c-3-1-6-1-8 0z" />
+                <path d="M20 5.5c-2-1-5-1-8 0v13c3-1 6-1 8 0z" />
+            </svg>
+            <span id="brand-name">Reading Companion</span>
+        </div>
+
+        <div id="upload-box">
+            <p id="upload-label">Add a book</p>
+            <label id="upload-drop" for="upload-input">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 16V4" />
+                    <path d="M7 9l5-5 5 5" />
+                    <path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3" />
+                </svg>
+                <span>Choose a PDF</span>
+                <input id="upload-input" type="file" accept="application/pdf" hidden>
+            </label>
+            <span id="upload-filename">No file chosen</span>
+            <button id="upload-btn">Upload</button>
+        </div>
+
+        <div id="library">
+            <p id="library-label">Library</p>
+            <ul id="book-list"></ul>
+        </div>
+    </div>
+
+    <div id="reader">
+        <div id="reader-empty">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 5.5c2-1 5-1 8 0v13c-3-1-6-1-8 0z" />
+                <path d="M20 5.5c-2-1-5-1-8 0v13c3-1 6-1 8 0z" />
+            </svg>
+            <p>Choose a book from your library, or upload a new one to get started.</p>
+        </div>
+
+        <canvas id="pdf-canvas" hidden></canvas>
+        <div id="reader-controls" hidden>
+            <button id="prev-btn" class="icon-btn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 18l-6-6 6-6" />
+                </svg>
+                Previous
+            </button>
+            <span id="page-info"></span>
+            <button id="next-btn" class="icon-btn">
+                Next
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 18l6-6-6-6" />
+                </svg>
+            </button>
+            <input id="page-jump" type="number" min="1" placeholder="Page #">
+            <button id="jump-btn">Go</button>
+        </div>
+    </div>
+
+    <div id="qna-panel" hidden>
+        <h2>Ask about this book</h2>
+        <div id="qna-messages"></div>
+        <input id="qna-input" type="text" placeholder="Ask a question...">
+        <button id="qna-ask-btn">Ask</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

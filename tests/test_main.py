@@ -3,6 +3,7 @@ from types import SimpleNamespace
 from fastapi.testclient import TestClient
 
 from app import main
+from app.routes import qna
 
 client = TestClient(main.app)
 
@@ -15,8 +16,8 @@ def test_ask_question_returns_answer(monkeypatch):
         assert current_offset == 500
         return "This is a fake answer"
 
-    monkeypatch.setattr(main, "get_progress", fake_get_progress)
-    monkeypatch.setattr(main, "answer_question", fake_answer_question)
+    monkeypatch.setattr(qna, "get_progress", fake_get_progress)
+    monkeypatch.setattr(qna, "answer_question", fake_answer_question)
 
     response = client.post("/books/doc123/ask", json={"question": "What happened?"})
 
