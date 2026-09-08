@@ -1,15 +1,13 @@
 import io
-import pytest
+from types import SimpleNamespace
 
+import pytest
+from fastapi import BackgroundTasks, HTTPException
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from fastapi import HTTPException, BackgroundTasks
-
-from app.routes import books
 from app.db.models import Base, Book
-
-from types import SimpleNamespace
+from app.routes import books
 
 
 def make_test_session():
