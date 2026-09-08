@@ -59,6 +59,7 @@ def list_books():
 def delete_book(document_id: str):
     with SessionLocal() as session:
         book = session.query(Book).filter(Book.document_id == document_id).first()
+        filename = book.filename if book else None
         if book:
             session.delete(book)
 
@@ -70,6 +71,9 @@ def delete_book(document_id: str):
             session.delete(progress)
 
         session.commit()
+
+    if filename:
+        (UPLOAD_DIR / filename).unlink(missing_ok=True)
 
     delete_document(document_id)
 

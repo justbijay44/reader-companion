@@ -26,9 +26,39 @@ async function loadBookList() {
             item.appendChild(badge);
         }
 
+        const deleteBtn = document.createElement("button");
+        deleteBtn.className = "book-delete-btn";
+        deleteBtn.title = "Delete book";
+        deleteBtn.innerHTML =
+            '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+            '<path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />' +
+            '<path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" /></svg>';
+        deleteBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            deleteBook(book);
+        });
+        item.appendChild(deleteBtn);
+
         item.addEventListener("click", () => openBook(book));
         list.appendChild(item);
     }
+}
+
+async function deleteBook(book) {
+    if (!confirm(`Delete "${book.filename}"? This cannot be undone.`)) return;
+
+    await fetch(`/books/${book.document_id}`, { method: "DELETE" });
+
+    if (documentId === book.document_id) {
+        documentId = null;
+        pdfDoc = null;
+        document.getElementById("pdf-canvas").hidden = true;
+        document.getElementById("reader-controls").hidden = true;
+        document.getElementById("qna-panel").hidden = true;
+        document.getElementById("reader-empty").hidden = false;
+    }
+
+    await loadBookList();
 }
 
 async function openBook(book) {

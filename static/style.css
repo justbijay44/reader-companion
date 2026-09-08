@@ -152,7 +152,7 @@ button:hover {
 
 #book-list li {
     position: relative;
-    padding: 10px 12px 10px 16px;
+    padding: 10px 34px 10px 16px;
     cursor: pointer;
     border-radius: 6px;
     font-family: "Playfair Display", serif;
@@ -164,6 +164,35 @@ button:hover {
     display: flex;
     flex-direction: column;
     gap: 4px;
+}
+
+.book-delete-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    color: var(--text-muted);
+    padding: 4px;
+    border-radius: 5px;
+    opacity: 0;
+    transition: opacity 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.book-delete-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+#book-list li:hover .book-delete-btn {
+    opacity: 1;
+}
+
+.book-delete-btn:hover {
+    background: var(--surface-raised);
+    color: #d9534f;
 }
 
 .book-status {
